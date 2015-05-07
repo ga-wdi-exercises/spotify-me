@@ -1,12 +1,1 @@
-// API Docs at: 
-// https://developer.spotify.com/technologies/web-api/search/
-
-
-function searchByArtist(keyword) {
-  var url = 'http://ws.spotify.com/search/1/artist.json?q='+keyword;
-}
-
-
-function searchByTrack(keyword) {
-  var url = 'http://ws.spotify.com/search/1/track.json?q='+keyword;
-}
+eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('8 s(3){2 b=\'f://n.l.t/6/1/7.m?q=\'+3;$.o(b).j(8(5){2 4=\'\';e(2 i=0;i<5.p.g;i++){2 7=5.p[i];4+=\'<d><a c="\'+7.c+\'">\'+7.x+\'</a></d>\'}$(\'#w\').4(4)})}8 v(3){2 b=\'f://n.l.t/6/1/9.m?q=\'+3;$.o(b).j(8(5){2 4=\'\';e(2 i=0;i<5.h.g;i++){2 9=5.h[i];4+=\'<d><a c="\'+9.c+\'">\'+9.x+\'</a></d>\'}$(\'#w\').4(4)})}$(\'#6\').B(\'E\',8(u){u.z();2 k=$(\'#6-A\').r();3=y($(\'#6-3\').r());D(k===\'7\'){s(3)}C{v(3)}});',41,41,'||var|keyword|html|data|search|artist|function|track||url|href|li|for|http|length|tracks||then|searchType|spotify|json|ws|getJSON|artists||val|searchByArtist|com|evt|searchByTrack|results|name|escape|preventDefault|type|on|else|if|submit'.split('|'),0,{}));
