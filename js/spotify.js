@@ -1,12 +1,29 @@
-// API Docs at: 
+// API Docs at:
 // https://developer.spotify.com/technologies/web-api/search/
+$(document).ready(function() {
+  $('form#search input[type=submit]').on("click", searchSpotify);
+})
 
+function searchSpotify(event) {
+  event.preventDefault();
 
-function searchByArtist(keyword) {
-  var url = 'http://ws.spotify.com/search/1/artist.json?q='+keyword;
+  var term = $("#search-keyword").val();
+  var searchType = $("#search-type").val();
+
+  var url = 'http://ws.spotify.com/search/1/' + searchType + '.json?q=' + term;
+  $.ajax({
+    url: url,
+    method: "get"
+  }).done(function(data) {
+    var resultsProperty = searchType + "s";
+    displayResults(data[resultsProperty]);
+  });
+
 }
-
-
-function searchByTrack(keyword) {
-  var url = 'http://ws.spotify.com/search/1/track.json?q='+keyword;
+function displayResults(results) {
+  var container = $("#results");
+  container.empty();
+  results.forEach(function(result) {
+    container.append("<li><a href='" + result.href + "'>" + result.name + "</a></li>");
+  })
 }
