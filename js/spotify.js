@@ -29,6 +29,26 @@ function searchByArtist(keyword) {
 
 function searchByTrack(keyword) {
   var url = 'http://ws.spotify.com/search/1/track.json?q='+keyword;
+  $.ajax({
+    url: url,
+    type: 'GET',
+    dataType: 'json'
+  })
+  .done(function(response) {
+    tracks = response.tracks;
+    $(tracks).each(function(index, el) {
+      var newLi = $('<li></li>');
+      newLi.html("<a href='" + el.href + "'>" + el.name + "</a>");
+      $("#results").append(newLi);
+    });
+  })
+  .fail(function() {
+    console.log("error");
+  })
+  .always(function() {
+    console.log("complete");
+  });
+
 }
 
 $(document).ready(function() {
