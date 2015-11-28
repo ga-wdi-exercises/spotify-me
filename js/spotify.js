@@ -33,6 +33,7 @@ function searchByTrack(keyword) {
 
 $(document).ready(function() {
   $("#search").submit(function(event) {
+    $("#results").empty();
     type = $("#search-type").val();
     keyword = $("#search-keyword").val();
     type === "artist" ? searchByArtist(keyword) : searchByTrack(keyword);
