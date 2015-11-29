@@ -12,7 +12,7 @@ function searchByTrack(keyword) {
 
 var listArtist = function (response) {
   for (var i=0; i <response.artists.length;i++) {
-    $('body').append(response.artists[i].name)
+    $('#results').append('<li>' + response.artists[i].name + '</li>')
   }
 }
 
