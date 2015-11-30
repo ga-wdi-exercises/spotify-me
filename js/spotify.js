@@ -13,12 +13,16 @@ function searchByTrack(keyword) {
 var listArtist = function (response) {
   for (var i=0; i <response.artists.length;i++) {
     $('#results').append('<li>' + response.artists[i].name + '</li>')
+    // //trying to get ul #results to empty after each new request - right now its all being appended multiple times if i hit submit again. tried using below code as part of this function but it didn't work also tried use .html instead of .append:
+    // {
+    //   $('#results').empty();
+    // }
   }
 }
 
 var listTrack = function (response) {
   for (var i=0; i <response.tracks.length;i++) {
-    $('body').append(response.tracks[i].name)
+    $('body').append('<li>' + response.tracks[i].name + '</li>')
   }
 }
 
