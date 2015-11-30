@@ -1,18 +1,59 @@
+/* put custom styles in this file */
+/*.container {
+	text-align: center;
+}*/
 body {
-  font: 16px/1.5 Helvetica Neue, Helvetica, sans-serif;
-  margin: 0;
+	background-color: #fff;
 }
 
-form {
-  background-color: black;
-  color: #fff;
-  padding: 10px 25px;
-}
+
 
 h1 {
-  margin: 0;
+	margin-right: 125px;
 }
 
-a {
-  color: #c00;
+#icon {
+	height: 40px;
+	width: auto;
+	display: inline;
+	float: left;
+	margin-left: 110px;
+}
+#song {
+	width: 475px;
+}
+
+#search-type {
+	margin-left: 19em;
+}
+
+#results {
+	margin-top: 10px;
+}
+img {
+	float: right;
+	height: 200px;
+	width: auto;
+}
+#results #left, #results #right {
+	margin-top: 25px;
+}
+p {
+	font-size: 16px;
+}
+#loadingGif {
+	display: none;
+	margin-right: 500px;
+}
+
+
+.btn-btn-success {
+	margin-top: 2px;
+	background-color: gold;
+
+}
+
+.search-bar {
+	margin-left: 20em;
+	padding-bottom: 25px;
 }
