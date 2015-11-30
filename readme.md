@@ -14,3 +14,5 @@ Use Ajax to load data from the Spotify API! A user should be able to:
  - Setup pagination links for accessing the next page of results.
 
 ## Take a look:
+jotalp.github.io/spotify.me/index.html
+
