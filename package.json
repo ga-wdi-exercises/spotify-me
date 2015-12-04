@@ -1,0 +1,23 @@
+{
+  "name": "spotify-me",
+  "version": "1.0.0",
+  "description": "Use Ajax to load data from the Spotify API! A user should be able to:",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcgrodsky/spotify-me.git"
+  },
+  "author": "Mia Grodsky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcgrodsky/spotify-me/issues"
+  },
+  "homepage": "https://github.com/mcgrodsky/spotify-me#readme"
+}
