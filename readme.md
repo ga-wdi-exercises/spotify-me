@@ -12,7 +12,3 @@ Use Ajax to load data from the Spotify API! A user should be able to:
 
  - Add a "Showing X-X of X results found" message.
  - Setup pagination links for accessing the next page of results.
-
-## Take a look:
-
-https://ga-dc.github.io/spotify-me
