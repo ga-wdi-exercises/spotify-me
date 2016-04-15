@@ -9,14 +9,11 @@ function getApp() {
 
   return {
     initPage: function() {
-      form.searchType.init();
+      initPage();
       return this;
     },
     listen: function() {
-      form.element.submit(function(event) {
-        event.preventDefault();
-        search(searchTypes[form.searchType.val()], form.keyword.val());
-      });
+      listen();
       return this;
     }
   };
@@ -45,6 +42,7 @@ function getApp() {
       var element = $('#search-type');
       return {
         element: element,
+
         init: function() {
           searchTypes.forEach(function(type, index) {
             var $option = $('<option>')
@@ -52,12 +50,24 @@ function getApp() {
               .text('Search for ' + type.name);
             element.append($option);
           });
+        },
+
+        get: function() {
+          return searchTypes[element.val()];
         }
       };
     }
 
     function defineKeyword() {
-      return { element: $('#search-keyword') };
+      var element = $('#search-keyword');
+      return {
+        element: element,
+        setPlaceholder: function() {
+          var name = form.searchType.get().name;
+          var placeholder = name[0].toUpperCase() + name.substring(1);
+          form.keyword.element.attr('placeholder', placeholder);
+        }
+      };
     }
 
     // For each form field, alias .element.val as .val for easy access.
@@ -86,6 +96,22 @@ function getApp() {
         });
       }
     };
+  }
+
+  function initPage() {
+    form.searchType.init();
+    form.keyword.setPlaceholder();
+  }
+
+  function listen() {
+    form.searchType.element.change(function(event) {
+      form.keyword.setPlaceholder();
+    });
+
+    form.element.submit(function(event) {
+      event.preventDefault();
+      search(form.searchType.get(), form.keyword.val());
+    });
   }
 
   function search(type, keyword) {
