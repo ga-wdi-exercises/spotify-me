@@ -5,6 +5,7 @@ $(function() {
 function getApp() {
   var searchTypes = defineSearchTypes();
   var form = defineForm();
+  var message = defineMessage();
   var results = defineResults();
 
   return {
@@ -89,17 +90,38 @@ function getApp() {
     }
   }
 
+  function defineMessage() {
+    var element = $('#message');
+    return {
+      element: element,
+
+      clear: function() {
+        element.empty();
+      },
+
+      display: function(text) {
+        element.text(text);
+      }
+    };
+  }
+
   function defineResults() {
     var element = $('#results');
     return {
       element: element,
+
       clear: function() {
         element.empty();
       },
+
       add: function(results) {
-        results.items.forEach(function(item) {
-          element.append($('<li>').text(item.name));
-        });
+        if (!results.items.length)
+          message.display('No results');
+        else {
+          results.items.forEach(function(item) {
+            element.append($('<li>').text(item.name));
+          });
+        }
       }
     };
   }
@@ -125,6 +147,7 @@ function getApp() {
   }
 
   function search(type, keyword) {
+    message.clear();
     results.clear();
     var url = 'https://api.spotify.com/v1/search?' + $.param({
       type: type.name,
@@ -135,7 +158,11 @@ function getApp() {
       dataType: 'json',
       success: function(data) {
         results.add(data[type.plural]);
-      }
+      },
+      error: function() {
+        message.display('Something went wrong with the search');
+      },
+      timeout: 3000
     });
   }
 }
