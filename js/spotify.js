@@ -32,10 +32,12 @@ function getApp() {
     var searchType = defineSearchType();
     var keyword = defineKeyword();
     aliasVal([searchType, keyword]);
+    var button = defineButton();
     return {
       element: element,
       searchType: searchType,
-      keyword: keyword
+      keyword: keyword,
+      button: button
     };
 
     function defineSearchType() {
@@ -68,6 +70,10 @@ function getApp() {
           form.keyword.element.attr('placeholder', placeholder);
         }
       };
+    }
+
+    function defineButton() {
+      return { element: $('#search-button') };
     }
 
     // For each form field, alias .element.val as .val for easy access.
@@ -106,6 +112,10 @@ function getApp() {
   function listen() {
     form.searchType.element.change(function(event) {
       form.keyword.setPlaceholder();
+    });
+
+    form.keyword.element.keyup(function(event) {
+      form.button.element.prop('disabled', !form.keyword.val());
     });
 
     form.element.submit(function(event) {
