@@ -155,7 +155,12 @@ function getApp() {
       return {
         add: function(items) {
           items.forEach(function(item) {
-            element.append($('<li>').text(item.name));
+            var $link = $('<a>')
+              .attr('href', item.external_urls.spotify)
+              .attr('target', '_blank')
+              .text(item.name);
+            var $item = $('<li>').append($link);
+            element.append($item);
           });
         },
 
