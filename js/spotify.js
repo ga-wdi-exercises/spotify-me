@@ -23,7 +23,7 @@ function getApp() {
   };
 
   function defineSearchTypes() {
-    return ['artist', 'track'].map(function(name) {
+    return ['artist', 'track', 'album', 'playlist'].map(function(name) {
       return {
         name: function() {
           return name;
