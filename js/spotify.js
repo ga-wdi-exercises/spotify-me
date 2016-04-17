@@ -125,22 +125,89 @@ function getApp() {
   }
 
   function defineResults() {
-    var element = $('#results');
+    var list = defineList();
+    var count = defineCount();
+    var next = defineNext();
     return {
       add: function(results) {
-        if (!results.items.length)
-          message.display('No results');
-        else {
-          results.items.forEach(function(item) {
-            element.append($('<li>').text(item.name));
-          });
-        }
+        list.add(results.items);
+        count.update(results);
+        next.update(results);
+      },
+
+      next: function() {
+        return {
+          element: next.element,
+          searchType: next.searchType,
+          url: next.url
+        };
       },
 
       clear: function() {
-        element.empty();
+        list.clear();
+        count.clear();
+        next.clear();
       }
     };
+
+    function defineList() {
+      var element = $('#results-list');
+      return {
+        add: function(items) {
+          items.forEach(function(item) {
+            element.append($('<li>').text(item.name));
+          });
+        },
+
+        clear: function() {
+          element.empty();
+        }
+      };
+    }
+
+    function defineCount() {
+      var element = $('#results-count');
+      return {
+        update: function(results) {
+          var is_last_page = !results.next;
+          var shown = is_last_page ? results.total : results.offset + results.limit;
+          var text = 'Showing ' + shown + ' of ' + results.total;
+          element.text(text);
+        },
+
+        clear: function() {
+          element.empty();
+        }
+      };
+    }
+
+    function defineNext() {
+      var element = $('#results-next'), searchType, url;
+      return {
+        element: function() {
+          return element;
+        },
+
+        searchType: function() {
+          return searchType;
+        },
+
+        url: function() {
+          return url;
+        },
+
+        update: function(results) {
+          element.toggle(!!results.next);
+          searchType = results.type;
+          url = results.next;
+        },
+
+        clear: function() {
+          element.hide();
+          searchType = url = undefined;
+        }
+      };
+    }
   }
 
   function defineSearch() {
@@ -165,7 +232,12 @@ function getApp() {
         url: url,
         dataType: 'json',
         success: function(data) {
-          results.add(data[type.plural()]);
+          var clean = data[type.plural()];
+          clean.type = type;
+          if (clean.items.length)
+            results.add(clean);
+          else
+            message.display('No results');
         },
         error: function() {
           message.display('Something went wrong with the search');
@@ -178,6 +250,7 @@ function getApp() {
   function initPage() {
     form.searchType().init();
     form.keyword().setPlaceholder();
+    results.next().element().hide();
   }
 
   function listen() {
@@ -194,6 +267,12 @@ function getApp() {
       message.clear();
       results.clear();
       search(form.searchType().get()).byKeyword(form.keyword().val());
+    });
+
+    results.next().element().click(function(event) {
+      event.preventDefault();
+      message.clear();
+      search(results.next().searchType()).byURL(results.next().url());
     });
   }
 }
