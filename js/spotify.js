@@ -41,19 +41,21 @@ function searchByArtist(keyword) {
 				
 				// Pagination conditions
 					// If total artists is less than the return limit
-					if (totalArtists < limitArtists) {
+					if (offsetArtists + limitArtists > totalArtists) {
 						$resultsArea.html("Showing " + (offsetArtists + 1) + " - " + totalArtists + " of " + totalArtists + " results " )
 					}
 					// If there are still more results to return
-					else if (totalArtists > offsetArtists + limitArtists) {
+					else if (offsetArtists + limitArtists < totalArtists) {
 						$resultsArea.html("Showing " + (offsetArtists + 1) + " - " + (offsetArtists + limitArtists ) + " of " + totalArtists + " results " )
 
 					}
-					else {
-						$resultsArea.html("Showing " + offsetArtists + " - " + totalArtists + " of " + totalArtists + " results")
-					}
+					// else if (offsetArtists + limitArtists > totalArtists) {
+					// 	$resultsArea.html("Showing " + offsetArtists + " - " + totalArtists + " of " + totalArtists + " results")
+					// }
 					// $resultsList.after($resultsArea + "<p><a href='https://api.spotify.com/v1/search?q=' + userInput + '&offset=' + offsetArtists * 2 + '&limit=20&type=artist'>Next</a></p>")
+					$resultsList.after($resultsArea)
 				}
+
 			})
 		}
 	})
