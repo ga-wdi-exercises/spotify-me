@@ -7,6 +7,7 @@ function getApp() {
   var form = defineForm();
   var message = defineMessage();
   var results = defineResults();
+  var search = defineSearch();
 
   // App's API
   return {
@@ -142,6 +143,38 @@ function getApp() {
     };
   }
 
+  function defineSearch() {
+    return function(type) {
+      return {
+        byKeyword: function(keyword) {
+          var url = 'https://api.spotify.com/v1/search?' + $.param({
+            type: type.name(),
+            q: keyword
+          });
+          return search(type, url);
+        },
+
+        byURL: function(url) {
+          return search(type, url);
+        }
+      };
+    };
+
+    function search(type, url) {
+      $.ajax({
+        url: url,
+        dataType: 'json',
+        success: function(data) {
+          results.add(data[type.plural()]);
+        },
+        error: function() {
+          message.display('Something went wrong with the search');
+        },
+        timeout: 3000
+      });
+    }
+  }
+
   function initPage() {
     form.searchType().init();
     form.keyword().setPlaceholder();
@@ -158,27 +191,9 @@ function getApp() {
 
     form.element().submit(function(event) {
       event.preventDefault();
-      search(form.searchType().get(), form.keyword().val());
-    });
-  }
-
-  function search(type, keyword) {
-    message.clear();
-    results.clear();
-    var url = 'https://api.spotify.com/v1/search?' + $.param({
-      type: type.name(),
-      q: keyword
-    });
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      success: function(data) {
-        results.add(data[type.plural()]);
-      },
-      error: function() {
-        message.display('Something went wrong with the search');
-      },
-      timeout: 3000
+      message.clear();
+      results.clear();
+      search(form.searchType().get()).byKeyword(form.keyword().val());
     });
   }
 }
