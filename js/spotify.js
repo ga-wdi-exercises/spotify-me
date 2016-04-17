@@ -185,7 +185,7 @@ function getApp() {
       form.keyword().setPlaceholder();
     });
 
-    form.keyword().element().keyup(function(event) {
+    form.keyword().element().on('input', function(event) {
       form.button().element().prop('disabled', !form.keyword().val());
     });
 
