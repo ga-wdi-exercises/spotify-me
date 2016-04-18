@@ -9,99 +9,69 @@ var $resultsList = $("#results")
 var $searchType = $("#search-type")
 var $resultsArea = $("<p class='shown-results'></p>")
 
-// Artist searching
-function searchByArtist(keyword) {
-	$form.on("submit", function(event) {
+// Artist parameters
+function searchByArtist(query) {
+  search("artist", "artists", query)
+}
+
+// Track parameters
+function searchByTrack(query){
+  search("track", "tracks", query)
+}
+
+// General search function
+function search(type, key, query) {
+  $form.on("submit", function(event) {
 		event.preventDefault()
 		var userInput = $searchField.val()
 		
-		if ( $searchType.val() === "artist" ) {
+		if ( $searchType.val() === type ) {
 			$.ajax({
-				url: "https://api.spotify.com/v1/search?q=" + userInput + "&offset=0&limit=20&type=artist",
+				url: "https://api.spotify.com/v1/search?q=" + userInput + "&offset=0&limit=20&type=" + type,
 				success: function(response) {
 					$("li").remove()
 					$(".shown-results").remove()
 
-				// API artist object variables
-					var artistObject = response.artists
-					var totalArtists = artistObject.total
-					var limitArtists = artistObject.limit
-					var offsetArtists = artistObject.offset
-					var artists = artistObject.items
+				// API object variables
+					var typeObject = response[key]
+					var totalType = typeObject.total
+					var limitType = typeObject.limit
+					var offsetType = typeObject.offset
+					var type = typeObject.items
 
-					console.log(artistObject)
+					console.log(typeObject)
 
 				// Loop through artists and add to list
-					for (var i = 0; i < artists.length; i++) {
-						var artistNames = artists[i].name
+					for (var i = 0; i < type.length; i++) {
+						var typeNames = type[i].name
 						var $newLi = $("<li></li>")
-						var artistNameList = $newLi.html(artistNames)
-						$resultsList.append(artistNameList)
+						var typeNameList = $newLi.html(typeNames)
+						$resultsList.append(typeNameList)
 					}
 				
 				// Pagination conditions
-					// If total artists is less than the return limit
-					if (offsetArtists + limitArtists > totalArtists) {
-						$resultsArea.html("Showing " + (offsetArtists + 1) + " - " + totalArtists + " of " + totalArtists + " results " )
+					// If the number of delivered results plus the result per page limit are greater than the total number of results
+					if (totalType === 0) {
+						$resultsArea.html("No results found.")
+					} 
+					else if (offsetType + limitType > totalType) {
+						$resultsArea.html("Showing " + (offsetType + 1) + "-" + totalType + " of " + totalType + " results " )
 					}
-					// If there are still more results to return
-					else if (offsetArtists + limitArtists < totalArtists) {
-						$resultsArea.html("Showing " + (offsetArtists + 1) + " - " + (offsetArtists + limitArtists ) + " of " + totalArtists + " results " )
+					// If delivered results plus result-per-page-limit are less than total results
+					else if (offsetType + limitType < totalType) {
+						$resultsArea.html("Showing " + (offsetType + 1) + "-" + (offsetType + limitType ) + " of " + totalType + " results " )
+					}
 
-					}
-					// else if (offsetArtists + limitArtists > totalArtists) {
-					// 	$resultsArea.html("Showing " + offsetArtists + " - " + totalArtists + " of " + totalArtists + " results")
-					// }
-					// $resultsList.after($resultsArea + "<p><a href='https://api.spotify.com/v1/search?q=' + userInput + '&offset=' + offsetArtists * 2 + '&limit=20&type=artist'>Next</a></p>")
+				// Put the results tally below the list
 					$resultsList.after($resultsArea)
 				}
-
 			})
 		}
 	})
 }
 
-// Track searching
-function searchByTrack(keyword) {
-	$form.on("submit", function(event) {
-		event.preventDefault()
-		var userInput = $searchField.val()
-
-		if ( $searchType.val() === "track" ) {
-			$.ajax({
-				url: "https://api.spotify.com/v1/search?q=" + userInput + "&offset=0&limit=15&type=track",
-				success: function(response) {
-					$("li").remove()
-					$(".shown-results").remove()
-					var trackObject = response.tracks
-					var totalTracks = trackObject.total
-					var limitTracks = trackObject.limit
-					var offsetTracks = trackObject.offset
-					var artists = trackObject.items
-
-					var tracks = response.tracks.items	
-
-					for (var i = 0; i < tracks.length; i++) {
-						var trackNames = tracks[i].name
-						var $newLi = $("<li></li>")
-						var trackNameList = $newLi.html(trackNames)
-						$resultsList.append(trackNameList)
-					}
-
-					if (totalTracks < limitTracks) {
-						$resultsArea.html("Showing " + (offsetTracks + 1) + " - " + totalTracks + " of " + totalTracks + " results " )
-					}
-					else if (totalTracks > offsetTracks + limitTracks) {
-						$resultsArea.html("Showing " + (offsetTracks + 1) + " - " + (offsetTracks + limitTracks ) + " of " + totalTracks + " results " )
-					}
-					else {
-						$resultsArea.html("Showing " + offsetTracks + " - " + totalTracks + " of " + totalTracks + " results")
-					}
-					$resultsList.after($resultsArea)					
-				}
-			})	
-		}
-	})
-}
 searchByArtist($searchField)
 searchByTrack($searchField)
+
+// $resultsList.after($resultsArea + "<p><a href='https://api.spotify.com/v1/search?q=' + userInput + '&offset=' + offsetArtists * 2 + '&limit=20&type=artist'>Next</a></p>")
+
