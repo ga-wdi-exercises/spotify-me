@@ -5,7 +5,7 @@ var $form = $("#search");
 var $dropdown = $("#search-type");
 var $results = $("#results");
 var $numResults = $("#number-results");
-var numItems = 0;
+var numItems = '';
 
 // clear input on click
 $input.click(function() {
@@ -13,7 +13,7 @@ $input.click(function() {
      })
 
 
-// select Search by Artist
+// select Search by Artist or Search by Track
   // submit
   // append new li for ul id="results" for search results
 
@@ -26,8 +26,14 @@ $form.on("submit", function(e){
   } else if ($dropdown.val() === "track"){
   searchByTrack($input.val());
   }
+});
+
+function updateNumItems (numItems) {
+  if (numItems === 1){
+  $numResults.html("<em>There is" + " " + numItems + " " + "item available.</em>");
+} else 
   $numResults.html("<em>There are" + " " + numItems + " " + "items available.</em>");
-})
+}
 
 function searchByArtist(keyword) {
   var url = 'https://api.spotify.com/v1/search?q='+keyword+'&type=artist';
@@ -38,9 +44,9 @@ function searchByArtist(keyword) {
       }
       var artistItems = response.artists.items.length;
       numItems = artistItems;
+      updateNumItems(numItems);
   })
 }
-
 
 function searchByTrack(keyword) {
   var url = 'https://api.spotify.com/v1/search?q='+keyword+'&type=track';
@@ -51,5 +57,6 @@ function searchByTrack(keyword) {
       }
       var trackItems = response.tracks.items.length;
       numItems = trackItems;
+      updateNumItems(numItems);
   })
 }
