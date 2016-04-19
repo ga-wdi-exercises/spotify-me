@@ -5,18 +5,22 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  
   <form id="search">
     <h1>spotify.me</h1>
-    <input type="search" id="search-keyword">
     <select id="search-type">
-      <option value="artist">Search by artist</option>
-      <option value="track">Search by track name</option>
     </select>
-    <input type="submit" value="Submit">
+    <input type="search" id="search-keyword">
+    <input type="submit" id="search-button" value="Search" disabled>
   </form>
-  
-  <ul id="results"></ul>
+
+  <div id="container">
+    <div id="message"></div>
+    <div id="results">
+      <ul id="results-list"></ul>
+      <div id="results-count"></div>
+      <a id="results-next" href="">More</a>
+    </div>
+  </div>
 
   <script src="js/jquery.js"></script>
   <script src="js/spotify.js"></script>
