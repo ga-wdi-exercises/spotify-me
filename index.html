@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  
+
   <form id="search">
     <h1>spotify.me</h1>
     <input type="search" id="search-keyword">
@@ -15,9 +15,13 @@
     </select>
     <input type="submit" value="Submit">
   </form>
-  
-  <ul id="results"></ul>
-
+  <div id="page-container">
+    <p id="number-results"></p>
+    <ul id="results"></ul>
+    <input type='hidden' id='current-page' />
+    <input type='hidden' id='show-per-page' />
+    <div class="page-navigation"></div>
+  </div>
   <script src="js/jquery.js"></script>
   <script src="js/spotify.js"></script>
 </body>
