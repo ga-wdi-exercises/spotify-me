@@ -28,8 +28,6 @@ function search(type, key, query) {
 		
 		if ( $searchType.val() === type ) {
 			$prevNext.empty()
-
-			// ---- PUT THIS IN A FUNCTION, MAKE IT A CALLBACK, AND SET AS A PARAMETER IN A FUNCTION ABOVE FUNCTION SEARCH???
 			$.ajax({
 				url: "https://api.spotify.com/v1/search?q=" + userInput + "&offset=0&limit=20&type=" + type,
 				success: function(response) {
@@ -47,8 +45,6 @@ function search(type, key, query) {
 					var $next = $(".next")
 					var $prev = $(".prev")
 
-					console.log(typeObject)
-
 				// Loop through artists/tracks and add to list
 					for (var i = 0; i < type.length; i++) {
 						var typeNames = type[i].name
@@ -56,7 +52,6 @@ function search(type, key, query) {
 						var typeNameList = $newLi.html(typeNames)
 						$resultsList.append(typeNameList)
 					}
-			// ---- END OF CALLBACK(??) BLOCK	
 
 					if (nextUrl) {
 						$prevNext.append("<a class='next' href=" + nextUrl + ">Next</a>")
@@ -69,11 +64,11 @@ function search(type, key, query) {
 					if (totalType === 0) {
 						$resultsArea.html("No results found.")
 					} 
-					// If the number of delivered results plus the result per page limit are greater than the total number of results
+					// If the number of delivered results plus the result per page limit is greater than the total number of results
 					else if (offsetType + limitType > totalType) {
 						$resultsArea.html("Showing " + (offsetType + 1) + "-" + totalType + " of " + totalType + " results " )
 					}
-					// If delivered results plus result-per-page-limit are less than total results
+					// If delivered results plus result-per-page-limit is less than total results
 					else if (offsetType + limitType < totalType) {
 						$resultsArea.html("Showing " + (offsetType + 1) + "-" + (offsetType + limitType ) + " of " + totalType + " results")
 					}
@@ -89,4 +84,3 @@ function search(type, key, query) {
 
 searchByArtist($searchField)
 searchByTrack($searchField)
-
