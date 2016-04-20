@@ -1,28 +1,37 @@
 // API Docs at: 
 // https://developer.spotify.com/technologies/web-api/search/
 
+'use strict';
+
+// Save existing DOM elements as variables
+const $results = $('#results');
+const $searchKeyword = $('#search-keyword');
+const $selectedOption = $(':selected');
+const $search = $('#search');
+
 
 function getKeyword(e) {
-	e.preventDefault();
-	$('#results').empty();
+  e.preventDefault();
+  $results.empty();
 
-	var keyword = $('#search-keyword').val();
+  var keyword = $searchKeyword.val();
 
-	if ($(':selected').val() === 'artist') {
-		searchSpotify(keyword, 'artist');
-	} else {
-		searchSpotify(keyword, 'track');
-	}
+  if ($selectedOption.val() === 'artist') {
+    searchSpotify(keyword, 'artist');
+  } else {
+    searchSpotify(keyword, 'track');
+  }
 };
 
 function searchSpotify(keyword, searchType) {
   var url = 'https://api.spotify.com/v1/search?q=' + keyword + '&type=' + searchType;
 
-  makeAPICall(url, searchType);
+  makeAPICall(url);
 };
 
-function makeAPICall(url, searchType) {
-	$.ajax({
+function makeAPICall(url) {
+  console.log("calling...");
+  $.ajax({
     url: url,
     method: 'GET',
     dataType: 'json',
@@ -31,43 +40,61 @@ function makeAPICall(url, searchType) {
 }
 
 function handleSuccess(response) {
-	if (response.artists) {
-		var data = response.artists;
-	} else {
-		var data = response.tracks;
-	}
-	var resultsList = data.items;
-	console.log(response);
+  var data = response.artists ? response.artists : response.tracks;
 
- 	resultsList.forEach(function(item) {
+  var resultsList = data.items;
+
+  resultsList.forEach(function(item) {
     var listItem = $('<li></li>').text(item.name);
-    $('#results').append(listItem);
+    $results.append(listItem);
   });
 
-  // if (data.total > 20 ) {
-  // 	addPagination(response);
-  // } 
+  if (data.total > 20 ) {
+    addResultCount(data);
+  } 
 };
 
 
-// function addPagination(response) {
-// 	 var first = response.artists.offset + 1;
-// 	 var last = response.artists.offset + 20;
-// 	 var total = response.artists.total;
+function addResultCount(data) {
+  var first = data.offset + 1;
+  var last = data.offset + 20;
+  var total = data.total;
 
-// 	var nowShowing = $('<p></p>').text('Showing ' + first + ' - ' + last + ' of ' + total);
-// 	$('#results').append(nowShowing);
-// }
+  var nowShowing = $('<p></p>').text('Showing ' + first + ' - ' + last + ' of ' + total);
+  $results.append(nowShowing);
 
-function addListeners() {
-	$('#search').on('submit', getKeyword);
+  if (data.previous) {
+    addPagination(data, 'previous');
+  }
+
+  if (data.next) {
+    addPagination(data, 'next');
+  } 
 }
 
+function addPagination(data, direction) {
+  var pageLink = $('<a href="#" class=' + direction + '></a>').text(direction);
+  $results.append(pageLink);
 
-function init() {
-	addListeners();
+  $('.next').on('click', {dataList: data, direction: 'next'}, onPageClick);
+  $('.previous').on('click', {dataList: data, direction: 'previous'}, onPageClick);
+}
+
+function onPageClick(event) {
+  event.stopImmediatePropagation();
+
+  $results.empty();
+  var url = event.data.dataList[event.data.direction];
+  console.log(url);
+
+  makeAPICall(url);
+}
+
+// Listen for a submit in the search field
+function addListeners() {
+  $search.on('submit', getKeyword);
 }
 
 
 // Initialize the page
-init();
+addListeners();
