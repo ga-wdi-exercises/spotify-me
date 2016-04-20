@@ -6,11 +6,10 @@
 // Save existing DOM elements as variables
 const $results = $('#results');
 const $searchKeyword = $('#search-keyword');
-const $selectedOption = $(':selected');
 const $search = $('#search');
 
 // Take user search term and determine whether to search it as track or artist
-function getKeyword(e) {
+const getKeyword = (e) => {
   e.preventDefault();
 
   // clear old results, if any
@@ -18,7 +17,7 @@ function getKeyword(e) {
 
   var keyword = $searchKeyword.val();
 
-  if ($selectedOption.val() === 'artist') {
+  if ($(':selected').val() === 'artist') {
     composeQuery(keyword, 'artist');
   } else {
     composeQuery(keyword, 'track');
@@ -26,14 +25,14 @@ function getKeyword(e) {
 };
 
 // Using search term and search type, compose the Spotify endpoint URL
-function composeQuery(keyword, searchType) {
+const composeQuery = (keyword, searchType) => {
   var url = 'https://api.spotify.com/v1/search?q=' + keyword + '&type=' + searchType;
 
   searchSpotify(url);
 };
 
 // Make a call to Spotify API with the specified URL
-function searchSpotify(url) {
+const searchSpotify = (url) => {
   $.ajax({
     url: url,
     method: 'GET',
@@ -43,7 +42,7 @@ function searchSpotify(url) {
 }
 
 // Iterate through list of results, adding them to the DOM
-function handleSuccess(response) {
+const handleSuccess = (response) => {
   var data = response.artists ? response.artists : response.tracks;
 
   var resultsList = data.items;
@@ -57,11 +56,18 @@ function handleSuccess(response) {
   addResultCount(data);
 };
 
-// 
-function addResultCount(data) {
+// Determine position in results output and add pagination links if needed
+const addResultCount = (data) => {
   var first = data.offset + 1;
-  var last = data.offset + 20;
   var total = data.total;
+
+  if (data.offset + 20 < total) {
+    // If there are at least 20 more results, the last one on the page can be offset + 20
+    var last = data.offset + 20;
+  } else {
+    // Otherwise the last one on the page will be the same as the total number of results
+    var last = total;
+  }
 
   if (total === 0) {
     var nowShowing = $('<p></p>').text('No results found.');
@@ -89,7 +95,7 @@ function addResultCount(data) {
 }
 
 // Create and append pagination links
-function addPagination(data, direction) {
+const addPagination = (data, direction) => {
   var pageLink = $('<a href="#" class=' + direction + '></a>').text(direction);
   $results.append(pageLink);
 
@@ -98,7 +104,7 @@ function addPagination(data, direction) {
 }
 
 // Handle clicks to pagination links
-function onPageClick(event) {
+const onPageClick = (event) => {
   // clear current page of results
   event.stopImmediatePropagation();
   $results.empty();
@@ -110,7 +116,7 @@ function onPageClick(event) {
 }
 
 // Listen for a submit in the search field
-function addListeners() {
+const addListeners = () => {
   $search.on('submit', getKeyword);
 }
 
