@@ -9,66 +9,55 @@ function getKeyword(e) {
 	var keyword = $('#search-keyword').val();
 
 	if ($(':selected').val() === 'artist') {
-		searchByArtist(keyword);
+		searchSpotify(keyword, 'artist');
 	} else {
-		searchByTrack(keyword);
+		searchSpotify(keyword, 'track');
 	}
 };
 
-function searchByArtist(keyword) {
-  var url = 'https://api.spotify.com/v1/search?q=' + keyword + '&type=artist';
+function searchSpotify(keyword, searchType) {
+  var url = 'https://api.spotify.com/v1/search?q=' + keyword + '&type=' + searchType;
 
-  makeAPICall(url);
+  makeAPICall(url, searchType);
 };
 
-
-function searchByTrack(keyword) {
-  var url = 'https://api.spotify.com/v1/search?q=' + keyword + '&type=track';
-
-  makeAPICall(url);
-}
-
-function makeAPICall(url) {
+function makeAPICall(url, searchType) {
 	$.ajax({
     url: url,
     method: 'GET',
     dataType: 'json',
-    success: handleArtistSuccess
+    success: handleSuccess
   });
 }
 
-function handleArtistSuccess(response) {
-	var artistList = response.artists.items;
+function handleSuccess(response) {
+	if (response.artists) {
+		var data = response.artists;
+	} else {
+		var data = response.tracks;
+	}
+	var resultsList = data.items;
 	console.log(response);
 
- 	artistList.forEach(function(data) {
-    var listItem = $('<li></li>').text(data.name);
+ 	resultsList.forEach(function(item) {
+    var listItem = $('<li></li>').text(item.name);
     $('#results').append(listItem);
   });
 
-  if (response.artists.total > 20 ) {
-  	addPagination(response);
-  } 
+  // if (data.total > 20 ) {
+  // 	addPagination(response);
+  // } 
 };
 
-function handleTrackSuccess(response) {
-	var trackList = response.tracks.items;
 
- 	trackList.forEach(function(data) {
-    var listItem = $('<li></li>').text(data.name);
-    $('#results').append(listItem);
-  });
+// function addPagination(response) {
+// 	 var first = response.artists.offset + 1;
+// 	 var last = response.artists.offset + 20;
+// 	 var total = response.artists.total;
 
-};
-
-function addPagination(response) {
-	 var first = response.artists.offset + 1;
-	 var last = response.artists.offset + 20;
-	 var total = response.artists.total;
-
-	var nowShowing = $('<p></p>').text('Showing ' + first + ' - ' + last + ' of ' + total);
-	$('#results').append(nowShowing);
-}
+// 	var nowShowing = $('<p></p>').text('Showing ' + first + ' - ' + last + ' of ' + total);
+// 	$('#results').append(nowShowing);
+// }
 
 function addListeners() {
 	$('#search').on('submit', getKeyword);
