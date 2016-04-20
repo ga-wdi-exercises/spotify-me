@@ -31,7 +31,7 @@ function search(type, key, query) {
 
 			// ---- PUT THIS IN A FUNCTION, MAKE IT A CALLBACK, AND SET AS A PARAMETER IN A FUNCTION ABOVE FUNCTION SEARCH???
 			$.ajax({
-				url: "https://api.spotify.com/v1/search?q=" + userInput + "&offset=20&limit=20&type=" + type,
+				url: "https://api.spotify.com/v1/search?q=" + userInput + "&offset=0&limit=20&type=" + type,
 				success: function(response) {
 					$("li").remove()
 					$(".shown-results").remove()
@@ -49,7 +49,7 @@ function search(type, key, query) {
 
 					console.log(typeObject)
 
-				// Loop through artists and add to list
+				// Loop through artists/tracks and add to list
 					for (var i = 0; i < type.length; i++) {
 						var typeNames = type[i].name
 						var $newLi = $("<li></li>")
