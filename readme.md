@@ -1,4 +1,8 @@
-# Spotify.me
+# Julia's Sweet Version of Spotify.me
+
+This is a funky hybrid of some ES6 (using const! using const for FUNCTIONS!) and ES5 (when I couldn't get ES6 to do what I wanted it to do!). I feel like this should need a transpiler or something, but it's working fine for me locally? So... how bout that.
+
+## Original readme
 
 Use Ajax to load data from the Spotify API! A user should be able to:
 
