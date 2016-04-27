@@ -3,14 +3,15 @@
 var $keyword = $('#search-keyword');
 var $submit = $('#submit-button');
 var $dropDown = $('#search-type');
+var artistList = $('#results');
+var trackList = $('#results');
 
 $submit.click( function(e) {
   e.preventDefault();
-  console.log($keyword.val());
-  console.log('hi');
-  console.log($dropDown.val());
+  artistList.html("");
+
   var keyword = $keyword.val();
-  console.log(keyword);
+
   if ($dropDown.val() == "artist") {
 
 
@@ -21,7 +22,7 @@ $submit.click( function(e) {
       	method: 'get',
       	success: function(response) {
       		var artists = response.artists.items;
-      		var artistList = $('#results');
+      		
       		artists.forEach(function(artistObject) {
       			artistList.append("<li>" + artistObject.name +"</li>")
       		})
@@ -41,7 +42,6 @@ $submit.click( function(e) {
       	success: function(response) {
       		console.log(response);
       		var tracks = response.tracks.items;
-      		var trackList = $('#results');
       		tracks.forEach(function(trackObject) {
       			trackList.append("<li>" + trackObject.name +"</li>")
       		})
