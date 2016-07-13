@@ -25,14 +25,20 @@ $(document).ready(function(){
         Method: "Get",
         url: url,
         dataType: "jsonp",
-        jsonpCallback: "showImage"
+        jsonpCallback: "showArtist"
       });
 
          // .done(function(data, textStatus, jqXHR) {
          //   // $("#results").html()
          // }
 
-       };
+     };
+
+
+  function showArtist(jason){
+    var artistName = jason.artists.name;
+    $('#results').html(`<li>${artistName}</li>`)
+    }
 
 
 
