@@ -3,7 +3,9 @@
 
 $(document).ready(function() {
   $('#search').submit(function(e) {
-    if($('#search-type').val() == 'artist') {
+    e.preventDefault();
+    $('#results').html('');
+    if($('#search-type').val() === 'artist') {
       searchByArtist($('#search-keyword'));
     }
     else {searchByTrack($('#search-keyword'));}
@@ -15,18 +17,20 @@ function searchByArtist(keyword) {
   keyword = keyword.val();
 
   var url = 'https://api.spotify.com/v1/search';
-  debugger
   $.ajax({
     url: url,
     method: "GET",
     dataType: 'json',
     data: {
       q: keyword,
-      type: artist
+      type: 'artist'
     }
   })
   .done(function(artistResponse){
-    debugger
+    var artistObject = artistResponse.artists.items;
+    artistObject.forEach(function(artist) {
+      $('#results').append("<li>" + artist.name + "</li>");
+    })
   })
 }
 
@@ -42,10 +46,13 @@ function searchByTrack(keyword) {
     dataType: 'json',
     data: {
       q: keyword,
-      type: track
+      type: 'track'
     }
   })
   .done(function(songResponse){
-    debugger
+    var songObject = songResponse.tracks.items;
+    songObject.forEach(function(song) {
+      $('#results').append("<li>" + song.name + "</li>");
+    })
   })
 }
