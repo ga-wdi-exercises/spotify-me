@@ -6,6 +6,7 @@ $(document).ready(function (){
 
 function checkInput(e) {
     e.preventDefault();
+    $('#results').empty();
     var $input = $('#search-keyword').val();
     var $category = $('#search-type').val();
     if ($category === "artist") {
@@ -21,8 +22,11 @@ function searchByArtist(keyword) {
   console.log('searched by artist', keyword);
   var results = $.ajax(options);
   results.done(function(object){
-    console.log(object);
-
+    var list = object.artists.items;
+    console.log(list);
+    for (var i = 0; i < list.length; i++) {
+      var $listItem = $('<li />').appendTo('#results').html(list[i].name);
+    }
   });
   results.fail(function(jqX, status, errorThrown) {
     console.log(status, errorThrown);
