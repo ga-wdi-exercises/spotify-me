@@ -16,3 +16,10 @@ h1 {
 a {
   color: #c00;
 }
+li{
+  font: 12px;
+  color: #2ebd59;
+}
+.listtext{
+  color: #2e2f33;
+}
