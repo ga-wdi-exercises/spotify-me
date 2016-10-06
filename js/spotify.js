@@ -30,6 +30,22 @@ function searchSpotify(event) {
       }
     })
 }
+function resultTrack() {
+  var keyword = $('input#search-keyword').val();
+  var url = 'https://api.spotify.com/v1/search?q='+keyword+'&type=track';
+  var options = { url: url};
+  var request = $.ajax(options);
+  request.done(function(response){
+    var responseCountTracks = response.tracks.items.length;
+    console.log('response', response);
+    for(var i=0; i<responseCountTracks;i++){
+      console.log(i + ': ', response.tracks.items[i]);
+      var track = response.tracks.items[i];
+      $('#results').append('<li>'+ track.name + '</li>');
+    }
+  })
+}
+
   // function resultTrack (){
   //   var url = 'https://api.spotify.com/v1/search?q='+keyword+'&type=track';
   //   var options = { url: url};
