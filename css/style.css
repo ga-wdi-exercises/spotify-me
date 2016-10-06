@@ -13,6 +13,10 @@ h1 {
   margin: 0;
 }
 
+h2 {
+  visibility: hidden;
+}
+
 a {
   color: #c00;
 }
