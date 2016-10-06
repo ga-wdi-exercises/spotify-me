@@ -24,7 +24,7 @@ $(document).ready(function() {
       // dataType: "json"
     })
       .done(function(response) {
-      var artistObject = response.artists.items
+      var artistObject = response.artists.items;
       artistObject.forEach(function(data) {
         $('#results').append("<li>" + data.name + "</li>");
       })
@@ -39,8 +39,8 @@ $(document).ready(function() {
       // dataType: "json"
     })
       .done(function(response) {
-      var artistObject = response.tracks.items;
-      artistObject.forEach(function(data) {
+      var trackObject = response.tracks.items;
+      trackObject.forEach(function(data) {
         $('#results').append("<li>" + data.name + "</li>");
       })
     })
