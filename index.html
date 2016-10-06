@@ -1,24 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Spotify.me</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  
-  <form id="search">
-    <h1>spotify.me</h1>
-    <input type="search" id="search-keyword">
-    <select id="search-type">
-      <option value="artist">Search by artist</option>
-      <option value="track">Search by track name</option>
-    </select>
-    <input type="submit" value="Submit">
-  </form>
-  
-  <ul id="results"></ul>
+  <head>
+    <meta charset="utf-8">
+    <title>spotify.me</title>
+    <link rel="stylesheet" href="https://bootswatch.com/superhero/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <div class="row">
+          <div class="col-md-6">
+            <h1>Spotify API</h1>
+            <form action="" id="myForm">
+              <input id="text-field" type="text" autocomplete="off">
+              <button class="btn btn-primary" type="submit">Search</button>
+              <br />
+              Search by...
 
-  <script src="js/jquery.js"></script>
-  <script src="js/spotify.js"></script>
-</body>
+              <input type="radio" name="searchType" value="artist"  />Artist
+              <input type="radio" name="searchType" value="track"checked="checked" />Track
+            </form>
+          </div>
+          <div class="col-md-6">
+            <!-- SPARE CONTAINER TO THE RIGHT OF THE SEARCH FORM -->
+          </div>
+        </div>
+      </div>
+      <div style="display:none" class="jumbotron RESULTS">
+
+
+      </div>
+    </div>
+
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/script.js"></script>
+  </body>
 </html>
