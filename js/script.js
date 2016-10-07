@@ -22,8 +22,6 @@ function sendRequest(query, searchType) {
     data: {
       q : query,
       type : searchType,
-      client_id: '1ca2cb5007ff4d5cb5ba9106d6e6929c',
-      client_secret: '20427a5d7f56411ea465b9cc85a39858'
     }
   }
 
