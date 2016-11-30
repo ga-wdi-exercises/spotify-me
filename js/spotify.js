@@ -1,17 +1,17 @@
 $(document).ready(function() {
-
+  $('#search').on('submit', searchSelector)
 });
-    $('#search').submit(function(e) {
-    e.preventDefault();
 
+  function searchSelector(e) {
+    e.preventDefault();
     var searchValue = $('#search-keyword').val();
     var selectValue = $('#search-type').val();
-      if(selectValue  === 'artist') {
-        searchArtist(searchValue);
-      } else  {
-        searchTrack(searchValue);
-      }
-  })
+    if(selectValue  === 'artist') {
+      searchArtist(searchValue);
+    } else  {
+      searchTrack(searchValue);
+    }
+  }
 
 
   function searchArtist(searchValue) {
