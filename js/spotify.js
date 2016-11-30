@@ -1,12 +1,43 @@
-// API Docs at: 
-// https://developer.spotify.com/web-api/search-item/
+$(document).ready(function() {
+  $('#search').on('submit', searchSelector)
+});
+
+  function searchSelector(e) {
+    e.preventDefault();
+    var searchValue = $('#search-keyword').val();
+    var selectValue = $('#search-type').val();
+    if(selectValue  === 'artist') {
+      searchArtist(searchValue);
+    } else  {
+      searchTrack(searchValue);
+    }
+  }
 
 
-function searchByArtist(keyword) {
-  var url = 'https://api.spotify.com/v1/search?q='+keyword+'&type=artist';
-}
+  function searchArtist(searchValue) {
+    var url = 'https://api.spotify.com/v1/search?q='+searchValue+'&type=artist';
+    $.ajax({
+      url: url
+    })
+      .done(function(response) {
+      $('#results').empty();
+      var artistObject = response.artists.items;
+      artistObject.forEach(function(data) {
+        $('#results').append("<li>" + data.name + "</li>");
+      })
+    })
+  };
 
-
-function searchByTrack(keyword) {
-  var url = 'https://api.spotify.com/v1/search?q='+keyword+'&type=track';
-}
+  function searchTrack(searchValue) {
+  var url = 'https://api.spotify.com/v1/search?q='+searchValue+'&type=track';
+    $.ajax({
+      url: url
+    })
+      .done(function(response) {
+      $('#results').empty();
+      var trackObject = response.tracks.items;
+      trackObject.forEach(function(data) {
+        $('#results').append("<li>" + data.name + "</li>");
+      })
+    })
+  };
