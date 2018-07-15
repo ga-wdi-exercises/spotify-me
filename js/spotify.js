@@ -21,6 +21,7 @@ $(document).ready(function() {
       dataType: "json"
     })
     .done(function(response) {
+      $('#results').empty();
       var artistObject = response.artists.items
       artistObject.forEach(function(data) {
         $('#results').append("<li>" + data.name + "</li>");
@@ -36,6 +37,7 @@ $(document).ready(function() {
       dataType: "json"
     })
     .done(function(response) {
+      $('#results').empty();
       var trackObject = response.tracks.items;
       trackObject.forEach(function(track) {
         $('#results').append("<li>" + track.name + "</li>");
